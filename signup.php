@@ -48,6 +48,7 @@
     </head>
     <body background = "https://hdqwalls.com/download/camera-vintage-pic-1920x1080.jpg">
         <ul>
+            <li><a>Camagru</a></li>
             <li><a href="Home.html">Home</a></li>
             <li><a href="signin.html">Signin</a></li>
             <li><a href="signup.html">Signup</a></li>

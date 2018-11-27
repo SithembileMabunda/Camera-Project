@@ -2,7 +2,18 @@
 	if (isset($_POST['url']) && isset($_POST['done']))
 	{
 		$url = $_POST['url'];
-		$stickerPath = "sticker3.png";
+		if (isset($_POST['pic1']))
+		{
+			$stickerPath = "sticker1.png";
+		}
+		if (isset($_POST['pic2']))
+		{
+			$stickerPath = "sticker2.png";
+		}
+		if (isset($_POST['pic3']))
+		{
+			$stickerPath = "sticker3.png";
+		}
 		
 		$bomb = explode(",", $url);
 		$decoded = base64_decode($bomb[1]);
@@ -34,6 +45,7 @@
 		mysqli_query($db, $sql);
 
 		header("Refresh:0");
+		//header("Location: gallery.php");
 
 		unlink($imagePath);
 		destroy($sticker);

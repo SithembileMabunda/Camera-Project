@@ -7,8 +7,9 @@
 
 		$image = $_FILES['image']['name'];
 		$text = $_POST['text'];
+		$user = $_SESSION['user']
 
-		$sql = "INSERT INTO `images` (`image_name`, `text`) VALUES ('$target', '$text')";
+		$sql = "INSERT INTO `images` (`image_name`, `user_name`, `text`) VALUES ('$target', '$user', $text')";
 		mysqli_query($db, $sql);
 		mysqli_query($db, "COMMIT");
 

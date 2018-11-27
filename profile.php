@@ -54,31 +54,11 @@
 			<li><a href="signout.php">Signout</a></li>
 		</ul>
 		<div>
-			<form action="update.php" method="post" align = "center">
-				<h1 align="center"><u><b>Change Password</b></u></h1>
-				<br>
-				<h2 align="center"><u><b>Current Password</b></u></h2>
-				<input class='button button1' type="text" name="oldpass" placeholder="Enter Current Password">
-				<h2 align="center"><u><b>New Password</b></u></h2>
-				<input class='button button1' type="text" name="newpass" placeholder="Enter New Password">
-				<br>
-				<input class='button button1' type="submit" name="submit" value="Changing!">
-			</form>
 			<?php
-				$db = mysqli_connect('localhost', 'root', 'password', 'camagru');
 				$user = $_SESSION['user'];
-				$opass = $_POST['oldpass'];
-				$npass = $_POST['newpass'];
-
-				$sql = "UPDATE `users` SET `password` = '$npass' WHERE `user_name` = '$user'";
-				mysqli_query($db, $sql);
-			?>
-		</div>
-		<div>
-			<?php
-				$user = $_SESSION['username'];
+				echo $user;
 				$db = mysqli_connect('localhost', 'root', 'password', 'camagru');
-				$sql = "SELECT * FROM `images` where `username` = `$user` ORDER BY `image_id` DESC";
+				$sql = "SELECT * FROM `images` where `user_name` = '$user' ORDER BY 'image_id' DESC";
 				$result = mysqli_query($db, $sql);
 				while ($row = mysqli_fetch_array($result))
 				{
