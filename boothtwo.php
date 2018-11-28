@@ -4,6 +4,9 @@
 <?php
 	if (isset($_POST['upload']))
 	{
+
+		$image = $_POST['image'];
+		$stick = $_POST['sticker'];
 		$target = "images/".basename($_FILES['image']['name']);
 
 		$db = mysqli_connect('localhost', 'root', 'password', 'camagru');
@@ -18,10 +21,12 @@
 
 		if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
 			echo "Image uploaded successfully";
+			echo $image;
+			echo $stick;
 		}
 		else{
 			echo "There was a problem uploading image";
 		}
-		header("Location: gallery.php");
+		//header("Location: gallery.php");
 	}
 ?>

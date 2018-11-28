@@ -2,15 +2,15 @@
 	if (isset($_POST['url']) && isset($_POST['done']))
 	{
 		$url = $_POST['url'];
-		if (isset($_POST['pic1']))
+		if ($_POST['pic1'])
 		{
 			$stickerPath = "sticker1.png";
 		}
-		if (isset($_POST['pic2']))
+		if ($_POST['pic2'])
 		{
 			$stickerPath = "sticker2.png";
 		}
-		if (isset($_POST['pic3']))
+		if ($_POST['pic3'])
 		{
 			$stickerPath = "sticker3.png";
 		}

@@ -46,6 +46,7 @@
 				<input class="button button4" type="hidden" name="size" value = "100000">
 				<div>
 					<input  type="file" name="image" onchange="loadFile(event)">
+					<input type="text" name="sticker" id="sticker" style="display: none;">
 				</div>
 				<div>
 					<textarea  name="text" cols="25" rows="4" placeholder="image description"></textarea>
