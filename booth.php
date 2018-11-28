@@ -37,19 +37,10 @@
 				<input type="text" name="sticker" id="sticker" style="display: none;">
 				<input class="button button4" type="submit" value="submit" name="done">
 			</form>
-	  		<!--<button class="tablinks" onclick="openCity(event, 'sticker1')"><img src="sticker1.png" width="15%"></button>
-	  		<br>
-			<button class="tablinks" onclick="openCity(event, 'sticker2')"><img src="sticker4.png" width="15%"></button>
-			<br>
-			<button class="tablinks" onclick="openCity(event, 'sticker3')"><img src="sticker3.png" width="15%"></button>-->
 	  	</div>
 	  	<div id="selected_sticker" class="tabcontent" style="display : none; position: absolute; left: 250px; top: 100px;">
 	  		<img id="omunye" src="sticker2.png" width = "45%">
 		</div>
-		<!--<form method="POST" action="boothone.php">
-			<input type="text" name="url" id="url" style="display: none;">
-			<input class="button button4" type="submit" value="submit" name="done">
-		</form>-->
 		<div class="gallery">
 			<form method="post" action="boothtwo.php" enctype="multipart/form-data" align="center">
 				<input class="button button4" type="hidden" name="size" value = "100000">

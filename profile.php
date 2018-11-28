@@ -46,26 +46,24 @@
         }
 	</style>
 	</head>
-	<body background="https://as2.ftcdn.net/jpg/01/33/74/17/500_F_133741768_6dL7b5FQj5lSy6vggHEdPi21ANaq4080.jpg">
+	<body bgcolor="grey">
 		<ul>
 			<li><a>Camagru</a></li>
 			<li><a href="booth.php">Booth</a></li>
 			<li><a href="gallery.php">Gallery</a></li>
 			<li><a href="signout.php">Signout</a></li>
 		</ul>
+		<?php
+			echo "<h1 align='center'><u><b>Signed In As ".$_SESSION['user']."</b></u></h1>";
+		?>
+		<div align="center">
+			<a href="#" class="button button1">Change Password</a>
+			<a href="#" class="button button1">Change Username</a>
+			<a href="#" class="button button1">Change Email Address</a>
+		</div>
 		<div>
 			<?php
-				$user = $_SESSION['user'];
-				echo $user;
-				$db = mysqli_connect('localhost', 'root', 'password', 'camagru');
-				$sql = "SELECT * FROM `images` where `user_name` = '$user' ORDER BY 'image_id' DESC";
-				$result = mysqli_query($db, $sql);
-				while ($row = mysqli_fetch_array($result))
-				{
-					echo "<div align='center'>\n";
-					echo "<img src=".$row['image_name']." width=33.3%>\n";
-					echo "</div>";
-				}
+				include 'booththree.php';
 			?>
 		</div>
 	</body>

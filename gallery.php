@@ -92,7 +92,7 @@
 		}
 		</style>
 	</head>
-	<body background="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg2rO-KcmeupM1olamnp0vR4ROct61rYxdOWnXbDQGy8em5GaK">
+	<body bgcolor="grey">
 		<ul>
 			<li><a>Camagru</a></li>
 			<li><a href="booth.php">Booth</a></li>
@@ -116,21 +116,15 @@
 					echo "<input class='button button1' type='text' name='type' placeholder='Enter A Comment'>";
 					echo "<input class='button button1' type='submit' name='comment' value='Comment!'>";
 					echo "<input class='button button1' type='button' name='delete' value='Delete!'>";
+					echo "<a href='#' align='center' class='button button1'>&blacktriangledown;</a>";
 					echo "</form>";
 					echo "</div>";
 				}
 			?>
 		</div>
-		<div class="pagination">
+		<div class="pagination" align="center">
 			<a href="Booth.php">Booth</a>
-  			<a href="#" align="center">&lt;</a>
-  			<a href="#" align="center">1</a>
-  			<a href="#" align="center">2</a>
-  			<a href="#" align="center">3</a>
-  			<a href="#" align="center">4</a>
-  			<a href="#" align="center">5</a>
-  			<a href="#" align="center">6</a>
-  			<a href="#" align="center">&gt;</a>
+  			<a href="#" align="center">&blacktriangledown;</a>
   		</div>
 	</body>
 </html>

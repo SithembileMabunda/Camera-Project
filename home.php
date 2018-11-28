@@ -45,13 +45,13 @@
 	<body background = "https://images.wallpaperscraft.com/image/polaroid_camera_pictures_64729_1920x1080.jpg">
 		<ul>
 			<li><a>Camagru</a></li>
-			<li><a href="Home.php">Home</a></li>
+			<li><a href="home.php">Home</a></li>
 			<li><a href="signin.php">Signin</a></li>
 			<li><a href="signup.php">Signup</a></li>
 		</ul>
-		<div style="position: absolute; top: 50%; left: 50%;">
-			<button type="button" class="button button1">Signin</button>
-			<button type="button" class="button button1">Signup</button>
+		<div style="position: absolute; top: 50%; right: 45%;">
+			<a href="signup.php" class="button button1">Signup</a>
+			<a href="signin.php" class="button button1">Signin</a>
 		</div>
 	</body>
 </html>
