@@ -51,54 +51,41 @@
 		<form method="POST" action="remember.php" align="center">
 			<h2><u><b>User Name:</b></u></h2>
 			<input class='button button1' type="text" name="username" placeholder="Enter User Name" required>
-			<h2><u><b>Confirmation Code:</b></u></h2>
-			<input class='button button1' type="text" name="code" placeholder="Enter Code To Confirm" required>
+			<h2><u><b>Email Address:</b></u></h2>
+			<input class='button button1' type="email" name="mail" placeholder="Enter Email Address" required>
+			<h2><u><b>New Password:</b></u></h2>
+			<input class='button button1' type="password" name="npass" placeholder="Enter New Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
 			<br>
 			<input class='button button1' type="submit" name="submit" value="OK">
 		</form>
 		<?php
 			$db = new PDO ('mysql:host=localhost;dbname=camagru;charset=utf8', 'root', 'password');
 			$user = $_POST['username'];
-			$code = $_POST['code'];
+			$mail = $_POST['mail'];
+			$pass = $_POST['npass'];
 			if (isset($_POST['submit']))
 			{
-				if (empty($user) || empty($code))
+				if (empty($user) || empty($mail) || empty($mail))
 				{
 					header("Location: remember.php?remember=error1");
 					//error("Username and/or Password and/or Code empty!");
 				}
 				else
 				{
-					$query = $db->prepare("SELECT `code FROM `users` WHERE `user_name` = ?");
+					$query = $db->prepare("SELECT `email` FROM `users` WHERE `user_name` = ?");
 					$query->execute([$user]);
 					$result = $query->fetch();
-					if ($result['code'] != $code)
+					if ($result['email'] != $mail)
 					{
 						header("Location: remember.php?remember=error2");
 						//error("username and/or password incorrect!");
 					}
 					else
 					{
-						$query = $db->prepare("SELECT `password` FROM `users` WHERE `user_name` = ?");
+						$pass = hash('whirlpool', $pass);
+						$query = $db->prepare("UPDATE `users` SET `password` = '$pass' WHERE `user_name` = ?");
 						$query->execute([$user]);
-						$result = $query->fetch();
-						$pass = $result['password'];
-						$to = $mail;
-			            $subject = 'Account Password';
-			            $message = "
-			            <html>
-			            <head>
-			            <title>Account Password</title>
-			            </head>
-			            <body>
-			            <p>$user, This Is Your Account Password: $pass</p>
-			            <button><a href='http://localhost:8080/Camagru/signin.php'><b>link</b></a></button>
-			            </body>
-			            </html>";
-			            $headers[] = 'MIME-Version: 1.0';
-			            $headers[] = 'Content-type: text/html; charset=iso-8859-1';
-			            $headers[] = 'From: smabunda@student.wethinkcode.co.za';
-			            mail($to, $subject, $message, implode("\r\n", $headers));
+						header("Location: signin.php");
 					}
 				}
 			}

@@ -52,9 +52,9 @@
 		</ul>
 		<form action="change.php" method="post" align="center">
 			<h2><u><b>Current Password:</b></u></h2>
-			<input class='button button1' type="text" name="opass" placeholder="Enter Current Password">
+			<input class='button button1' type="text" name="opass" placeholder="Enter Current Password" required>
 			<h2><u><b>New Password:</b></u></h2>
-			<input class='button button1' type="text" name="npass" placeholder="Enter New Password">
+			<input class='button button1' type="text" name="npass" placeholder="Enter New Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
 			<br>
 			<input class='button button1' type="submit" name="submit">
 		</form>
@@ -73,7 +73,8 @@
 				}
 				else
 				{
-					$query = $db->prepare("SELECT `password` FROM `camagru` WHERE `user_name` = ?");
+					$opass = hash('whirlpool', $opass);
+					$query = $db->prepare("SELECT `password` FROM `users` WHERE `user_name` = ?");
 					$query->execute([$user]);
 					$result = $query->fetch();
 					if ($result['password'] != $opass)
@@ -83,7 +84,8 @@
 					}
 					else
 					{
-						$query = $db->prepare("UPDATE `camagru` SET `password` = '$npass' WHERE `user_name` = ?");
+						$npass = hash('whirlpool', $npass);
+						$query = $db->prepare("UPDATE `users` SET `password` = '$npass' WHERE `user_name` = ?");
 						$query->execute([$user]);
 						header("Location: profile.php");
 					}

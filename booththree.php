@@ -10,6 +10,9 @@
 	{
 		echo "<div align='center'>\n";
 		echo "<img src=".$row['image_name']." width=33.3%>\n";
+		echo  "<br>";
+		echo "<input class='button button1' type='button' name='delete' value='Delete!' onclick=deletePic(".$row['image_id'].")>";
 		echo "</div>";
 	}
+	//header("Location: profile.php");
 ?>

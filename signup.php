@@ -50,8 +50,8 @@
         <ul>
             <li><a>Camagru</a></li>
             <li><a href="Home.html">Home</a></li>
-            <li><a href="signin.html">Signin</a></li>
-            <li><a href="signup.html">Signup</a></li>
+            <li><a href="signin.php">Signin</a></li>
+            <li><a href="signup.php">Signup</a></li>
         </ul>
         <h1 align = "center"><u><b>Signup</b></u></h1> 
         <div>
@@ -61,11 +61,11 @@
             <h2><u><b>Last Name:</b></u></h2>
             <input class='button button1' type="text" name="lname" placeholder="Enter Your Last Name" required><br>
             <h2><u><b>User Name:</b></u></h2>
-            <input class='button button1' type="text" name="uname" placeholder="Enter Your User Name" required><br>
+            <input class='button button1' type="text" name="uname" placeholder="Enter Your User Name" pattern=".{6,}" title="Six or more characters" required><br>
             <h2><u><b>Email:</b></u></h2>
-            <input class='button button1' type="email" name="email" placeholder="Enter Your Email Address" required><br>
+            <input class='button button1' type="email" name="email" placeholder="Enter Your Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required><br>
             <h2><u><b>Password:</b></u></h2>
-            <input class='button button1' type="password" name="pass" placeholder="Enter Your Password"  required><br>
+            <input class='button button1' type="password" name="pass" placeholder="Enter Your Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required><br>
             <input class='button button1' type="submit" name="submit" value="OK">
         </form>
         <?php
@@ -78,10 +78,13 @@
             $pword = $_POST['pass'];
             $code = mt_rand(1000, 9999);
 
+            $pword = hash('whirlpool', $pword);
+
             $sql = "INSERT INTO `users` (`first_name`, `last_name`, `user_name`, `email`, `password`, `code`) VALUES ('$first', '$last', '$user', '$mail', '$pword', '$code')";
             mysqli_query($db, $sql);
             $to = $mail;
             $subject = 'Validate Camagru Account';
+            $url = $_SERVER['HTTP_HOST'] . str_replace("/signup.php", "", $_SERVER['REQUEST_URI']);
             $message = "
             <html>
             <head>
@@ -90,7 +93,7 @@
             <body>
             <p>Please Click On Link Below To Activate Account</p>
             <p>Please Enter This Code:".$code."</p>
-            <button><a href='http://localhost:8080/Camagru/activate.php'><b>link</b></a></button>
+            <button><a href='http://".$url."/activate.php'><b>link</b></a></button>
             </body>
             </html>";
             $headers[] = 'MIME-Version: 1.0';

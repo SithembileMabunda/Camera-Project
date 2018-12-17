@@ -79,6 +79,7 @@
                     }
                     else
                     {
+                        $pass = hash('whirlpool', $pass);
                         $query = $db->prepare("SELECT `password` FROM `users` WHERE `user_name` = ?");
                         $query->execute([$user]);
                         $result = $query->fetch();

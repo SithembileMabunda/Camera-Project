@@ -46,7 +46,7 @@
 				<input class="button button4" type="hidden" name="size" value = "100000">
 				<div>
 					<input  type="file" name="image" onchange="loadFile(event)">
-					<input type="text" name="sticker" id="sticker" style="display: none;">
+					<input type="text" name="sticker2" id="sticker2" style="display: none;">
 				</div>
 				<div>
 					<textarea  name="text" cols="25" rows="4" placeholder="image description"></textarea>
@@ -66,10 +66,12 @@
 			function openCity(selectedSticker)
 			{
 				var sticker = document.getElementById("sticker");
+				var sticker2 = document.getElementById("sticker2");
 				var omunye = document.getElementById("omunye");
 				var div = document.getElementById("selected_sticker");
 
 				sticker.value = selectedSticker;
+				sticker2.value = selectedSticker;
 				omunye.src = selectedSticker;
 				div.style.display = "block";
 			}

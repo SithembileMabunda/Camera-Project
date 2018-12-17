@@ -86,16 +86,16 @@
                         else
                         {
                         	$to = $mail;
-                        	$subject = 'Validate Camagru Account';
+                        	$subject = 'Remember Camagru Account';
+                            $url = $_SERVER['HTTP_HOST'] . str_replace("/forgot.php", "", $_SERVER['REQUEST_URI']);
 		            		$message = "
 		            		<html>
 		            		<head>
-		            		<title>Validate Account</title>
+		            		<title>Remember Account</title>
 		            		</head>
 		            		<body>
-		            		<p>Please Click On Link Below To Activate Account</p>
-		            		<p>Please Enter Confirmation Code Sent To Your Email When Activating Account</p>
-		            		<button><a href='http://localhost:8080/Camagru/remember.php'><b>link</b></a></button>
+		            		<p>Please Click On Link Below To Remember Account</p>
+		            		<button button='button button4'><a href='http://".$url."/remember.php'><b>link</b></a></button>
 		            		</body>
 		            		</html>";
 		            		$headers[] = 'MIME-Version: 1.0';

@@ -5,6 +5,7 @@
 <html>
 	<head>
 		<title>Profile</title>
+		<script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
 		<style>
 		ul
 		{
@@ -57,14 +58,42 @@
 			echo "<h1 align='center'><u><b>Signed In As ".$_SESSION['user']."</b></u></h1>";
 		?>
 		<div align="center">
-			<a href="#" class="button button1">Change Password</a>
-			<a href="#" class="button button1">Change Username</a>
-			<a href="#" class="button button1">Change Email Address</a>
+			<form method="post" action="notification.php">
+				<a href="change.php" class="button button1">Change Password</a>
+				<a href="changeone.php" class="button button1">Change Username</a>
+				<a href="changetwo.php" class="button button1">Change Email Address</a>
+				<input type="submit" class="button button1" name="notif" value="notif">
+			</form>
+		</div>
+		<div>
+			<!--if the users notifications are 0 then display -Off- else display -On- -->
+			<?php
+				$db = new PDO ('mysql:host=localhost;dbname=camagru;charset=utf8mb4', 'root', 'password');
+                $user = $_SESSION['user'];
+				$query = $db->prepare("SELECT `notif` FROM `users` WHERE `user_name` = ?");
+                $query->execute([$user]);
+                $result = $query->fetch();
+				if ($result['notif'] == 0)
+					echo "Notifications Are Off";
+				else
+					echo "Notifications Are On";
+			?>
 		</div>
 		<div>
 			<?php
 				include 'booththree.php';
 			?>
 		</div>
+		<script>
+  			
+  			function deletePic(imageId)
+  			{
+  				$.ajax({method: "POST", url: "image.php", data: {"imageId":imageId, "delete": "Deleted"}, success: function (result)
+  					{
+  						alert(result);
+  					}})
+  			}
+  			
+  		</script>
 	</body>
 </html>

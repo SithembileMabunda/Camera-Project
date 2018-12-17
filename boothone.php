@@ -1,8 +1,11 @@
 <?php
+	session_start();
+	$user = $_SESSION['user'];
 	if (isset($_POST['url']) && isset($_POST['done']))
 	{
 		$url = $_POST['url'];
-		if ($_POST['pic1'])
+		$stickerPath = $_POST["sticker"];
+		/*if ($_POST['pic1'])
 		{
 			$stickerPath = "sticker1.png";
 		}
@@ -13,7 +16,7 @@
 		if ($_POST['pic3'])
 		{
 			$stickerPath = "sticker3.png";
-		}
+		}*/
 		
 		$bomb = explode(",", $url);
 		$decoded = base64_decode($bomb[1]);
@@ -41,11 +44,11 @@
 		$db = mysqli_connect('localhost', 'root', 'password', 'camagru');
 		$text = "caption";
 	
-		$sql = "INSERT INTO `images` (`image_name`, `text`) VALUES ('$image', '$text')";
+		$sql = "INSERT INTO `images` (`image_name`, `user_name`, `text`) VALUES ('$image', '$user', '$text')";
 		mysqli_query($db, $sql);
 
-		header("Refresh:0");
-		//header("Location: gallery.php");
+		//header("Refresh:0");
+		header("Location: gallery.php");
 
 		unlink($imagePath);
 		destroy($sticker);

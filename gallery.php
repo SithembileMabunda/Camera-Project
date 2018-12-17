@@ -5,6 +5,7 @@
 <html>
 	<head>
 		<title>Gallery</title>
+		<script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
 		<style>
 		ul
 		{
@@ -90,6 +91,44 @@
 		{
 			margin: 1% 33.3%;
 		}
+
+		.modal {
+		    display: none; /* Hidden by default */
+		    position: fixed; /* Stay in place */
+		    z-index: 1; /* Sit on top */
+		    padding-top: 100px; /* Location of the box */
+		    left: 0;
+		    top: 0;
+		    width: 100%; /* Full width */
+		    height: 100%; /* Full height */
+		    overflow: auto; /* Enable scroll if needed */
+		    background-color: rgb(0,0,0); /* Fallback color */
+		    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+		}
+
+		/* Modal Content */
+		.modal-content {
+		    background-color: #fefefe;
+		    margin: auto;
+		    padding: 20px;
+		    border: 1px solid #888;
+		    width: 80%;
+		}
+
+		/* The Close Button */
+		.close {
+		    color: #aaaaaa;
+		    float: right;
+		    font-size: 28px;
+		    font-weight: bold;
+		}
+
+		.close:hover,
+		.close:focus {
+		    color: #000;
+		    text-decoration: none;
+		    cursor: pointer;
+		}
 		</style>
 	</head>
 	<body bgcolor="grey">
@@ -101,31 +140,104 @@
 		</ul>
 		<div>
 			<?php
-				$db = mysqli_connect('localhost', 'root', 'password', 'camagru');
+				$db = new PDO ('mysql:host=localhost;dbname=camagru;charset=utf8mb4', 'root', 'password');
 				$user = $_SESSION['user'];
-				$sql = "SELECT * FROM `images` ORDER BY `image_id` DESC";
-				$result = mysqli_query($db, $sql);
+				$sql = $db->prepare("SELECT * FROM `images` ORDER BY `image_id` DESC");
+				$sql->execute();
+
 				echo "<h1 align='center'><u><b>Signed In As ".$_SESSION['user']."</b></u></h1>";
-				while ($row = mysqli_fetch_array($result))
+				while ($row = $sql->fetch())
 				{
+					$id = $row['image_id'];
+					$comId = "typed".$id;
+					$showId = "myBtn".$id;
+					$likeId = "like".$id;
 					echo "<div align='center' class='polaroid more'>\n";
-					echo "<img src=".$row['image_name']." width=100%>\n";
+					echo "<img src=".$row['image_name']." width=100% alt='missing image'>\n";
 					echo "<br>";
 					echo "<form action='image.php' method='post'>";
-					echo "<input class='button button1' type='button' name='like' value='Like!'>";
-					echo "<input class='button button1' type='text' name='type' placeholder='Enter A Comment'>";
-					echo "<input class='button button1' type='submit' name='comment' value='Comment!'>";
-					echo "<input class='button button1' type='button' name='delete' value='Delete!'>";
-					echo "<a href='#' align='center' class='button button1'>&blacktriangledown;</a>";
+					echo "<input class='button button1' type='button' name='like' id='".$likeId."' value='Like!' onclick=likePic(".$row['image_id'].")>";
+					echo "<input class='button button1' type='text' name='type' id='".$comId."' placeholder='Enter A Comment'>";
+					echo "<input class='button button1' type='button' name='comment' value='Comment!' onclick=commentPic(".$row['image_id'].")>";
+					//echo "<a href='#' align='center' class='button button1'>&blacktriangledown;</a>";
+					echo "<input type='button' class='button button1' name='more' id='".$showId."' align='center' onclick=showComments(".$row['image_id'].") value='&blacktriangledown;'>";
 					echo "</form>";
 					echo "</div>";
 				}
 			?>
+			<div id="myModal" class="modal">
+
+			  <!-- Modal content -->
+				<div class="modal-content">
+					<span class="close">&times;</span>
+					<div id="comments">
+						
+					</div>
+				</div>
+
+			</div>
 		</div>
+		<script>
+			
+
+			function showComments(imageId)
+			{
+				// Get the modal
+				var modal = document.getElementById('myModal');
+				var comments = document.getElementById('comments');
+
+				// Get the button that opens the modal
+				var btn = document.getElementById("myBtn" + imageId);
+
+				// Get the <span> element that closes the modal
+				var span = document.getElementsByClassName("close")[0];
+
+				// When the user clicks the button, open the modal 
+				//btn.onclick = function() {
+				    modal.style.display = "block";
+				//}
+
+				// When the user clicks on <span> (x), close the modal
+				span.onclick = function() {
+				    modal.style.display = "none";
+				}
+
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function(event) {
+				    if (event.target == modal) {
+				        modal.style.display = "none";
+				    }
+				}
+				$.ajax({method: "POST", url: "show.php", data: {"imageId":imageId}, success: function (result)
+  					{
+  						comments.innerHTML = result;
+  					}})
+			}
+		</script>
 		<div class="pagination" align="center">
 			<a href="Booth.php">Booth</a>
   			<a href="#" align="center">&blacktriangledown;</a>
   		</div>
+  		<script>
+  			
+  			function likePic(imageId)
+  			{
+  				$.ajax({method: "POST", url: "image.php", data: {"imageId":imageId, "like":"stop it i like it"}, success: function (result)
+  					{
+  						alert(result);
+  					}})
+  			}
+
+  			function commentPic(imageId)
+  			{
+  				var txt = document.getElementById("typed" + imageId).value;
+  				$.ajax({method: "POST", url: "image.php", data: {"imageId":imageId, "comment":"stop it i comment it", "txt": txt}, success: function (result)
+  					{
+  						alert(result);
+  					}})
+  			}
+  			
+  		</script>
 	</body>
 </html>
 <!--<?php
