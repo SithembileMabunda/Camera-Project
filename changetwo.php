@@ -76,7 +76,7 @@
 					$query = $db->prepare("SELECT `email` FROM `users` WHERE `user_name` = ?");
 					$query->execute([$user]);
 					$result = $query->fetch();
-					if ($result['mail'] != $omail)
+					if ($result['email'] != $omail)
 					{
 						header("Location: changetwo.php?changetwo=error2");
 						//error("Current Password and/or New Password Incorrect!");

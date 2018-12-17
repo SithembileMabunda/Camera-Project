@@ -70,6 +70,7 @@
 				{
 					header("Location: changeone.php?changeone=error1");
 					//error("Current Password and/or New Password empty!");
+					echo "error1";
 				}
 				else
 				{
@@ -80,6 +81,7 @@
 					{
 						header("Location: changeone.php?changeone=error2");
 						//error("Current Password and/or New Password Incorrect!");
+						echo "error1";
 					}
 					else
 					{
@@ -87,12 +89,13 @@
 						$query2 = $db->prepare("UPDATE `images` SET `user_name` = '$nname' WHERE `user_name` = ?");
 						$query3 = $db->prepare("UPDATE `comments` SET `user_name` = '$nname' WHERE `user_name` = ?");
 						$query4 = $db->prepare("UPDATE `likes` SET `user_name` = '$nname' WHERE `user_name` = ?");
-						$query1->execute([$users]);
-						$query2->execute([$users]);
-						$query3->execute([$users]);
-						$query4->execute([$users]);
+						$query1->execute([$user]);
+						$query2->execute([$user]);
+						$query3->execute([$user]);
+						$query4->execute([$user]);
 						$_SESSION['user'] = $nname;
 						header("Location: profile.php");
+						echo "no-error";
 					}
 				}
 			}
