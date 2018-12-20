@@ -9,7 +9,7 @@
 		$stickerPath = $_POST['sticker2'];
 		$target = "images/".basename($_FILES['image']['name']);
 
-		$db = mysqli_connect('localhost', 'root', 'password', 'camagru');
+		$db = new PDO ('mysql:host=localhost;dbname=camagru;charset=utf8mb4', 'root', 'password');
 
 		$image = $_FILES['image']['name'];
 		$text = $_POST['text'];
@@ -32,11 +32,9 @@
 
 		$image = $newImageName;
 		$text = "caption";
-	
 
-		$sql = "INSERT INTO `images` (`image_name`, `user_name`, `text`) VALUES ('$newImageName', '$user', '$text')";
-		mysqli_query($db, $sql);
-		mysqli_query($db, "COMMIT");
+		$query = $db->prepare("INSERT INTO `images` (`image_name`, `user_name`, `text`) VALUES (?, ?, ?)");
+        $query->execute(array($newImageName, $user, $text));
 
 		/*if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
 			echo "Image uploaded successfully";

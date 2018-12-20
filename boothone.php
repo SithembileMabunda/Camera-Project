@@ -41,11 +41,12 @@
 		imagejpeg($dest, $newImageName, 100);
 
 		$image = $newImageName;
-		$db = mysqli_connect('localhost', 'root', 'password', 'camagru');
+
+		$db = new PDO ('mysql:host=localhost;dbname=camagru;charset=utf8mb4', 'root', 'password');
 		$text = "caption";
-	
-		$sql = "INSERT INTO `images` (`image_name`, `user_name`, `text`) VALUES ('$image', '$user', '$text')";
-		mysqli_query($db, $sql);
+
+		$query = $db->prepare("INSERT INTO `images` (`image_name`, `user_name`, `text`) VALUES (?, ?, ?)");
+        $query->execute(array($image, $user, $text));
 
 		//header("Refresh:0");
 		header("Location: gallery.php");

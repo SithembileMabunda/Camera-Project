@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Gallery</title>
+		<title>Button</title>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
 		<style>
 		ul
@@ -100,18 +100,80 @@
         <div id="list">
 			<?php
 
-				include_once "arr.php";
+				$db = new PDO ('mysql:host=localhost;dbname=camagru;charset=utf8mb4', 'root', 'password');
+
+				echo "<h1 align='center'><u><b>Signed In As ".$_SESSION['user']."</b></u></h1>";
+
+				$query = $db->prepare("SELECT `image_name` FROM `images` ORDER BY `image_id` DESC");
+				$query->execute();
+
+
+			    while ($pic = $query->fetch())
+			    {
+			    	$pics[] = $pic;
+			    }
 
                 $i = 0;
                 //$pics = array("sticker1.png", "sticker2.png", "sticker3.png", "sticker4.png");
 				/*foreach ($pics as $row)
 				{*/
 					echo "<div align='center' class='polaroid more'>\n";
-					echo "<img src=".$pics[$i]." width=100%>\n";
+					echo "<img src=".$pics[$i]['image_name']." width=100%>\n";
+					echo "<br>";
+					echo "<form action='image.php' method='post'>";
+					echo "<input class='button button1' type='button' name='like' id='".$likeId."' value='Like!' onclick=likePic(".$row['image_id'].")>";
+					echo "<input class='button button1' type='text' name='type' id='".$comId."' placeholder='Enter A Comment'>";
+					echo "<input class='button button1' type='button' name='comment' value='Comment!' onclick=commentPic(".$row['image_id'].")>";
+					echo "<input type='button' class='button button1' name='more' id='".$showId."' align='center' onclick=showComments(".$row['image_id'].") value='&blacktriangledown;'>";
+					echo "</form>";
+					echo "<br>";
+					echo "</div>";
+					echo "<div align='center' class='polaroid more'>\n";
+					echo "<img src=".$pics[++$i]['image_name']." width=100%>\n";
+					echo "<br>";
+					echo "<form action='image.php' method='post'>";
+					echo "<input class='button button1' type='button' name='like' id='".$likeId."' value='Like!' onclick=likePic(".$row['image_id'].")>";
+					echo "<input class='button button1' type='text' name='type' id='".$comId."' placeholder='Enter A Comment'>";
+					echo "<input class='button button1' type='button' name='comment' value='Comment!' onclick=commentPic(".$row['image_id'].")>";
+					echo "<input type='button' class='button button1' name='more' id='".$showId."' align='center' onclick=showComments(".$row['image_id'].") value='&blacktriangledown;'>";
+					echo "</form>";
+					echo "<br>";
+					echo "</div>";
+					echo "<div align='center' class='polaroid more'>\n";
+					echo "<img src=".$pics[++$i]['image_name']." width=100%>\n";
+					echo "<br>";
+					echo "<form action='image.php' method='post'>";
+					echo "<input class='button button1' type='button' name='like' id='".$likeId."' value='Like!' onclick=likePic(".$row['image_id'].")>";
+					echo "<input class='button button1' type='text' name='type' id='".$comId."' placeholder='Enter A Comment'>";
+					echo "<input class='button button1' type='button' name='comment' value='Comment!' onclick=commentPic(".$row['image_id'].")>";
+					echo "<input type='button' class='button button1' name='more' id='".$showId."' align='center' onclick=showComments(".$row['image_id'].") value='&blacktriangledown;'>";
+					echo "</form>";
+					echo "<br>";
+					echo "</div>";
+					echo "<div align='center' class='polaroid more'>\n";
+					echo "<img src=".$pics[++$i]['image_name']." width=100%>\n";
+					echo "<br>";
+					echo "<form action='image.php' method='post'>";
+					echo "<input class='button button1' type='button' name='like' id='".$likeId."' value='Like!' onclick=likePic(".$row['image_id'].")>";
+					echo "<input class='button button1' type='text' name='type' id='".$comId."' placeholder='Enter A Comment'>";
+					echo "<input class='button button1' type='button' name='comment' value='Comment!' onclick=commentPic(".$row['image_id'].")>";
+					echo "<input type='button' class='button button1' name='more' id='".$showId."' align='center' onclick=showComments(".$row['image_id'].") value='&blacktriangledown;'>";
+					echo "</form>";
+					echo "<br>";
+					echo "</div>";
+					echo "<div align='center' class='polaroid more'>\n";
+					echo "<img src=".$pics[++$i]['image_name']." width=100%>\n";
+					echo "<br>";
+					echo "<form action='image.php' method='post'>";
+					echo "<input class='button button1' type='button' name='like' id='".$likeId."' value='Like!' onclick=likePic(".$row['image_id'].")>";
+					echo "<input class='button button1' type='text' name='type' id='".$comId."' placeholder='Enter A Comment'>";
+					echo "<input class='button button1' type='button' name='comment' value='Comment!' onclick=commentPic(".$row['image_id'].")>";
+					echo "<input type='button' class='button button1' name='more' id='".$showId."' align='center' onclick=showComments(".$row['image_id'].") value='&blacktriangledown;'>";
+					echo "</form>";
 					echo "<br>";
 					echo "</div>";
 					echo "</div>";
-					echo "<input id='next_page' type='button' value='next' onclick=next(".++$i.")>";
+					echo "<input id='next_page' type='button' value='&blacktriangledown;' onclick=next(".++$i.")>";
 				//}
 			?>
 		<!-- </div> -->
@@ -126,12 +188,81 @@
 					list.innerHTML += result;
 					button.onclick = function ()
 					{
-						index++;
+						index += 5;
 						next(index);
 					};
 				}});
 			}
 
 		</script>
+		<div id="myModal" class="modal">
+
+			  <!-- Modal content -->
+				<div class="modal-content">
+					<span class="close">&times;</span>
+					<div id="comments">
+						
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<script>
+			
+
+			function showComments(imageId)
+			{
+				// Get the modal
+				var modal = document.getElementById('myModal');
+				var comments = document.getElementById('comments');
+
+				// Get the button that opens the modal
+				var btn = document.getElementById("myBtn" + imageId);
+
+				// Get the <span> element that closes the modal
+				var span = document.getElementsByClassName("close")[0];
+
+				// When the user clicks the button, open the modal 
+				//btn.onclick = function() {
+				    modal.style.display = "block";
+				//}
+
+				// When the user clicks on <span> (x), close the modal
+				span.onclick = function() {
+				    modal.style.display = "none";
+				}
+
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function(event) {
+				    if (event.target == modal) {
+				        modal.style.display = "none";
+				    }
+				}
+				$.ajax({method: "POST", url: "show.php", data: {"imageId":imageId}, success: function (result)
+  					{
+  						comments.innerHTML = result;
+  					}})
+			}
+		</script>
+  		<script>
+  			
+  			function likePic(imageId)
+  			{
+  				$.ajax({method: "POST", url: "image.php", data: {"imageId":imageId, "like":"stop it i like it"}, success: function (result)
+  					{
+  						alert(result);
+  					}})
+  			}
+
+  			function commentPic(imageId)
+  			{
+  				var txt = document.getElementById("typed" + imageId).value;
+  				$.ajax({method: "POST", url: "image.php", data: {"imageId":imageId, "comment":"stop it i comment it", "txt": txt}, success: function (result)
+  					{
+  						alert(result);
+  					}})
+  			}
+  			
+  		</script>
         </body>
 </html>
