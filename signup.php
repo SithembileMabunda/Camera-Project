@@ -69,7 +69,7 @@
             <input class='button button1' type="submit" name="submit" value="OK">
         </form>
         <?php
-            $db = mysqli_connect('localhost', 'root', 'password', 'camagru');
+            $db = new PDO ('mysql:host=localhost;dbname=camagru;charset=utf8mb4', 'root', 'password');
 
             $first = $_POST['fname'];
             $last = $_POST['lname'];
@@ -80,8 +80,8 @@
 
             $pword = hash('whirlpool', $pword);
 
-            $sql = "INSERT INTO `users` (`first_name`, `last_name`, `user_name`, `email`, `password`, `code`) VALUES ('$first', '$last', '$user', '$mail', '$pword', '$code')";
-            mysqli_query($db, $sql);
+            $query = $db->prepare("INSERT INTO `users` (`first_name`, `last_name`, `user_name`, `email`, `password`, `code`) VALUES (?, ?, ?, ?, ?, ?)");
+            $query->execute(array($first, $last, $user, $mail, $pword, $code));
             $to = $mail;
             $subject = 'Validate Camagru Account';
             $url = $_SERVER['HTTP_HOST'] . str_replace("/signup.php", "", $_SERVER['REQUEST_URI']);
